@@ -1,0 +1,28 @@
+Simple DataBase Application in WPF using VB.NET, Ms SQL Server and Crystal Reports
+----------------------------------------------------------------------------
+
+In this tutorial you have to learn:
+
+* Connectivity with Ms SQL Server Database
+* Designing WPF xaml Form, using Grid, Buttons, StackPanel, GroupBox, TextBox and Label
+* CRUD Operation (Create, Read, Update and Delete)
+* Load Records in DataGrid
+* DataGrid Filtration
+* Designing the Report using Crystal Reports
+* Report Printing in your project
+* Report Filtration
+
+
+Software is as follows:
+
+* Microsoft Visual Studio 2017
+* Microsoft SQL Server 2017
+* Crystal Reports XI Release 2
+* .NET Framework 4.7
+
+
+Database file is added in this zip folder
+
+
+
+

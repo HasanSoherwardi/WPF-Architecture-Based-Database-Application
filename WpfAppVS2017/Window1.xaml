@@ -1,0 +1,212 @@
+﻿<Window x:Class="Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppVS2017"
+        mc:Ignorable="d"
+        Title="Patient Info" Height="680" Width="1150" WindowStyle="ThreeDBorderWindow" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="173.426" />
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="404" Margin="10,10,0,0" VerticalAlignment="Top" Width="178"/>
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left"  Height="400" Margin="12,12,0,0" VerticalAlignment="Top" Width="175" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Grid>
+                <Button x:Name="BtnNew" Height="46" Margin="10,5,10,0" VerticalAlignment="Top" Width="152" Click="Button_Click">
+                    <StackPanel x:Name="SPNew" Orientation="Horizontal">
+                        <Image Source="/Resources/New.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Label Width="0" Height="0">_New</Label>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>N</Underline>ew</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="BtnSave" Height="46" Margin="10,5,10,0" VerticalAlignment="Top" 
+                        Width="152" Click="BtnSave_Click" >
+                    <StackPanel x:Name="SPSave" Orientation="Horizontal">
+                        <Image Source="/Resources/Save.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Label Width="0" Height="0">_Save</Label>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>S</Underline>ave</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152" Click="BtnClear_Click" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Clear.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">C_lear</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center">C<Underline>l</Underline>ear</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152" Click="BtnSearch_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Search.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">Searc_h</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center">Searc<Underline>h</Underline></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152" Click="BtnEdit_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Edit.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">_Edit</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>E</Underline>dit</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152" Click="BtnDelete_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Image Source="/Resources/Delete.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">_Delete</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>D</Underline>elete</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152" Click="BtnReferesh_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Image Source="/Resources/Referesh.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">_Referesh</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>R</Underline>eferesh</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="46" Margin="3,3,3,0" VerticalAlignment="Top" Width="152"  Click="BtnPrint_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Image Source="/Resources/Print.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label Width="0" Height="0">_Print</Label>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>P</Underline>rint</TextBlock>
+                </StackPanel>
+            </Button>
+            <Grid>
+                <Button x:Name="BtnClose" Height="46" Margin="10,2,10,0" VerticalAlignment="Top" Width="152" Click="BtnClose_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Close.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Label Width="0" Height="0">_Close</Label>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>C</Underline>lose</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="BtnCancel" Height="46" Margin="12,2,11,0" VerticalAlignment="Center" 
+                        Width="152" Click="BtnCancel_Click" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Cancel.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Label Width="0" Height="0">_Cancel</Label>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" FontSize="14" TextAlignment="Center"><Underline>C</Underline>ancel</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  Height="100" Margin="2,250,0,0" VerticalAlignment="Top" Width="200" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0" Grid.Row="0" BorderBrush="LightGray" BorderThickness="2" Margin="2,2,0,0" Height="95" Width="195" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Grid Background="LightGray" Margin="0,8,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label FontSize="12" Margin="3,3,3,3" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" >Search (Name, Disease, Mobile)</Label>
+                        <TextBox FontSize="16" Margin="3,3,3,3" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"
+                               Name="txtSearch"  Width="175" Height="24" TextChanged="txtSearch_TextChanged"></TextBox>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </StackPanel>
+
+
+        <Border Grid.Column="1" Grid.Row="0"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="164" Margin="0,10,0,0" VerticalAlignment="Top" Width="888"/>
+        <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"  Height="160" Margin="2,12,0,0" VerticalAlignment="Top" Width="885" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Column="0" Grid.Row="0" BorderBrush="LightGray" BorderThickness="2" Margin="3,3,0,0" Height="150" Width="430" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Grid Margin="1,8,0,0" Height="135" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="0" >Patient Code</Label>
+                        <TextBox Name="txtPCode" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Background="LightGray" IsReadOnly="True" Grid.Column="1" Grid.Row="0"></TextBox>
+
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="1" >Patient Name</Label>
+                        <TextBox Name="txtPName" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Grid.Row="1"></TextBox>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="2" Grid.Row="1" >*</Label>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="2" >Disease</Label>
+                        <TextBox Name="txtDisease" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Grid.Row="2"></TextBox>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="2" Grid.Row="2" >*</Label>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" Grid.Row="0" BorderBrush="LightGray" BorderThickness="2" Margin="3,3,0,0" Height="150" Width="430" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Grid Margin="1,8,0,0" Height="135" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="0" >Address</Label>
+                        <TextBox Name="txtAddress" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Grid.Row="0"></TextBox>
+
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="1" >City</Label>
+                        <TextBox Name="txtCity" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Grid.Row="1"></TextBox>
+
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="0" Grid.Row="2" >Mobile</Label>
+                        <TextBox Name="txtMobile" Width="200" Margin="3,3,3,3" Height="24" VerticalAlignment="Center" FontSize="16" Grid.Column="1" Grid.Row="2"></TextBox>
+                        <Label FontSize="18" Margin="3,3,3,3" Grid.Column="2" Grid.Row="2" >*</Label>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </StackPanel>
+
+
+
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  Height="374" Margin="2,0,0,0" VerticalAlignment="Center" Width="885" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <DataGrid Name="DataGrid1" RowHeight="30"  HorizontalAlignment="Left"  Height="372" Margin="2,2,0,0"
+                      VerticalAlignment="Top" Width="885" Background="LightGray" RowBackground="LightYellow"
+                      Foreground="Black" SelectionMode="Single" AutoGenerateColumns="False" AlternatingRowBackground="white"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
+                      CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="True"
+                      ColumnHeaderHeight="40" IsReadOnly="True" VerticalScrollBarVisibility="Visible"
+                      GridLinesVisibility="Horizontal" HeadersVisibility="Column" SelectedItem="{Binding Row, Mode=TwoWay}"                      >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Patient Code" Width="75" Binding="{Binding PatientCode}" FontFamily="Calibri" FontStyle="Normal"  FontSize="16"/>
+                    <DataGridTextColumn Header="Patient Name" Width="170" Binding="{Binding PatientName}" FontFamily="Calibri" FontStyle="Normal" FontSize="16"/>
+                    <DataGridTextColumn Header="Disease" Width="110" Binding="{Binding Disease}" FontFamily="Calibri" FontStyle="Normal" FontSize="16"/>
+                    <DataGridTextColumn Header="Address" Width="230" Binding="{Binding Address}" FontFamily="Calibri" FontStyle="Normal" FontSize="16"/>
+                    <DataGridTextColumn Header="City" Width="140" Binding="{Binding City}" FontFamily="Calibri" FontStyle="Normal" FontSize="16"/>
+                    <DataGridTextColumn Header="Mobile" Width="110" Binding="{Binding Mobile}" FontFamily="Calibri" FontStyle="Normal" FontSize="16"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"  Height="70" Margin="2,0,0,0" VerticalAlignment="Center" Width="885" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+
+            <Label x:Name="lblRecords" VerticalAlignment="Top" FontSize="14" Margin="2,10,0,0" HorizontalAlignment="Center" Width="200" Height="40"></Label>
+        </StackPanel>
+    </Grid>
+</Window>
