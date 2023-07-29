@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfAppVS2017"
         xmlns:Viewer="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer" x:Class="MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000">
+        Title="Patient Report" Height="700" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -36,7 +36,7 @@
                     <ComboBoxItem Content="Mobile"></ComboBoxItem>
                 </ComboBox>
                 <TextBox Grid.Row="0" Grid.Column="1" Margin="2,2,0,0" Width="140" VerticalAlignment="Bottom" FontSize="14" Height="24"
-                         Name="txtSearch" TextChanged="txtSearch_TextChanged"></TextBox>
+                         Name="txtSearch" ></TextBox>
                 <Button Grid.Row="0" Grid.Column="2" Height="35" Margin="3,3,3,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="130" Click="BtnPrint_Click">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                         <Image Source="/Resources/Print.png" Margin="0,2,5,0" VerticalAlignment="Center" HorizontalAlignment="Left" />

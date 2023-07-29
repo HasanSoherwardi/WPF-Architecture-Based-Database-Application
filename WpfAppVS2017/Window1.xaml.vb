@@ -1,27 +1,24 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
-
+Imports WpfAppBL
+Imports WpfAppModel
 
 Public Class Window1
 
-    Sub LoadData()
-        Try
-            With OleCn
-                If .State <> ConnectionState.Open Then
-                    .ConnectionString = StrConnection()
-                    .Open()
-                End If
-            End With
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
-        End Try
+    Private Sub BindPatientInfo()
+        Dim objBL As BLPatientInfo = New BLPatientInfo()
+        Dim dtData As DataTable = New DataTable()
 
-        Dim cmd As New SqlCommand("select * from tblPatient", OleCn)
-        Dim da As New SqlDataAdapter(cmd)
-        Dim ds As New DataSet()
-        da.Fill(ds, "tblPatient")
-        DataGrid1.ItemsSource = ds.Tables("tblPatient").AsDataView
-        lblRecords.Content = "Records: " & Me.DataGrid1.SelectedIndex + 1 & " of " & Me.DataGrid1.Items.Count.ToString()
+        Try
+            dtData = objBL.GetPatientInfo()
+
+            If dtData.Rows.Count > 0 Then
+                DataGrid1.ItemsSource = dtData.AsDataView
+            End If
+            lblRecords.Content = "Records: " & Me.DataGrid1.SelectedIndex + 1 & " of " & Me.DataGrid1.Items.Count.ToString()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message.ToString(), "Load Data Error")
+        End Try
     End Sub
 
     Sub Clear()
@@ -49,61 +46,24 @@ Public Class Window1
             Return
         End If
 
-        Try
-            With OleCn
-                If .State <> ConnectionState.Open Then
-                    .ConnectionString = StrConnection()
-                    .Open()
-                End If
-            End With
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
-        End Try
+        Dim patient As Patient = New Patient()
+        Dim objBL As BLPatientInfo = New BLPatientInfo()
+        Dim msg As String = String.Empty
 
         Try
+            patient.PatientName = txtPName.Text.Trim()
+            patient.Disease = txtDisease.Text.Trim()
+            patient.Address = txtAddress.Text.Trim()
+            patient.City = txtCity.Text.Trim()
+            patient.Mobile = txtMobile.Text.Trim()
+            msg = objBL.InsertPatientDetail(patient)
 
-            Dim sSQL As String = "insert into tblPatient (PatientName,Disease,Address,City,Mobile) values(@PatientName,@Disease,@Address,@City,@Mobile)"
-
-            Dim cmd As SqlCommand = New SqlCommand(sSQL, OleCn)
-
-            'PatientName
-            Dim PatientName As SqlParameter = New SqlParameter("@PatientName", SqlDbType.VarChar, 50)
-            PatientName.Value = txtPName.Text.ToString()
-            cmd.Parameters.Add(PatientName)
-
-            'Disease
-            Dim Disease As SqlParameter = New SqlParameter("@Disease", SqlDbType.VarChar, 50)
-            Disease.Value = txtDisease.Text.ToString()
-            cmd.Parameters.Add(Disease)
-
-            'Address
-            Dim Address As SqlParameter = New SqlParameter("@Address", SqlDbType.VarChar, 300)
-            Address.Value = txtAddress.Text.ToString()
-            cmd.Parameters.Add(Address)
-
-            'City
-            Dim City As SqlParameter = New SqlParameter("@City", SqlDbType.VarChar, 50)
-            City.Value = txtCity.Text.ToString()
-            cmd.Parameters.Add(City)
-
-            'Mobile
-            Dim Mobile As SqlParameter = New SqlParameter("@Mobile", SqlDbType.VarChar, 20)
-            Mobile.Value = txtMobile.Text.ToString()
-            cmd.Parameters.Add(Mobile)
-
-            Dim temp As Integer = 0
-            temp = cmd.ExecuteNonQuery()
-
-            If temp > 0 Then
-                OleCn.Close()
+            If msg.Equals("success") Then
                 MessageBox.Show("New Record is Added Successfully.", "Record Saved", MessageBoxButton.OK, MessageBoxImage.Information)
                 Call Clear()
-                'Call OnCancel()
-                Call LoadData()
+                Call BindPatientInfo()
             Else
-                OleCn.Close()
                 MsgBox("Record Addition Failed ", MsgBoxStyle.Critical, "Addition Failed")
-                Exit Sub
             End If
 
         Catch ex As Exception
@@ -118,16 +78,14 @@ Public Class Window1
         BtnCancel.Visibility = Visibility.Hidden
         BtnClose.Visibility = Visibility.Visible
     End Sub
+
     Private Sub BtnCancel_Click(sender As Object, e As RoutedEventArgs)
         Call OnCancel()
     End Sub
 
     Private Sub BtnClose_Click(sender As Object, e As RoutedEventArgs)
         Try
-
-            OleCn.Close()
             End
-
         Catch ex As Exception
         End Try
     End Sub
@@ -137,7 +95,7 @@ Public Class Window1
         BtnSave.Visibility = Visibility.Hidden
         BtnCancel.Visibility = Visibility.Hidden
         BtnClose.Visibility = Visibility.Visible
-        Call LoadData()
+        Call BindPatientInfo()
     End Sub
 
     Private Sub BtnClear_Click(sender As Object, e As RoutedEventArgs)
@@ -193,45 +151,31 @@ Public Class Window1
             Exit Sub
         End If
 
-        Try
-            With OleCn
-                If .State <> ConnectionState.Open Then
-                    .ConnectionString = StrConnection()
-                    .Open()
-                End If
-            End With
-        Catch ex As Exception
-            MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
-        End Try
+        Dim patient As Patient = New Patient()
+        Dim objBL As BLPatientInfo = New BLPatientInfo()
+        Dim msg As String = String.Empty
 
         Try
+            patient.PatientCode = Convert.ToInt32(a)
+            msg = objBL.SelectPatientDetail(patient).ToString()
 
-            Dim dr1 As SqlDataReader
-            Dim com As New SqlCommand
-            com.CommandText = "select [PatientCode],[PatientName],[Disease],[Address],[City],[Mobile] from tblPatient where PatientCode = " & a & ""
-            com.Connection = OleCn
-            dr1 = com.ExecuteReader
-            If dr1.Read Then
-
-                txtPCode.Text = dr1(0).ToString()
-                txtPName.Text = dr1(1).ToString()
-                txtDisease.Text = dr1(2).ToString()
-                txtAddress.Text = dr1(3).ToString()
-                txtCity.Text = dr1(4).ToString()
-                txtMobile.Text = dr1(5).ToString()
+            If msg.Equals("success") Then
+                txtPCode.Text = patient.PatientCode.ToString()
+                txtPName.Text = patient.PatientName.ToString()
+                txtDisease.Text = patient.Disease.ToString()
+                txtAddress.Text = patient.Address.ToString()
+                txtCity.Text = patient.City.ToString()
+                txtMobile.Text = patient.Mobile.ToString()
 
                 If BtnSave.Visibility = Visibility.Visible Then
                     Call OnCancel()
                 End If
-
             Else
                 MsgBox("Record Searching Failed!!! ", MsgBoxStyle.Critical, "Searching Failed")
             End If
-            OleCn.Close()
-            dr1.Close()
 
         Catch ex As Exception
-            MsgBox(ex.Message(), MsgBoxStyle.Critical, "Error...")
+            MsgBox(ex.Message(), MsgBoxStyle.Critical, "Find Error")
         End Try
 
     End Sub
@@ -250,66 +194,30 @@ Public Class Window1
                 Return
             End If
 
-            Try
-                With OleCn
-                    If .State <> ConnectionState.Open Then
-                        .ConnectionString = StrConnection()
-                        .Open()
-                    End If
-                End With
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
-            End Try
+            Dim patient As Patient = New Patient()
+            Dim objBL As BLPatientInfo = New BLPatientInfo()
+            Dim msg2 As String = String.Empty
 
             Try
-                Dim cmd2 As New SqlCommand("Update tblPatient Set PatientName=@PatientName,Disease=@Disease,Address=@Address,City=@City,Mobile=@Mobile Where (PatientCode=@PatientCode) ", OleCn)
+                patient.PatientCode = txtPCode.Text.Trim()
+                patient.PatientName = txtPName.Text.Trim()
+                patient.Disease = txtDisease.Text.Trim()
+                patient.Address = txtAddress.Text.Trim()
+                patient.City = txtCity.Text.Trim()
+                patient.Mobile = txtMobile.Text.Trim()
+                msg2 = objBL.UpdatePatientDetail(patient)
 
-                'PatientName
-                Dim PatientName As SqlParameter = New SqlParameter("@PatientName", SqlDbType.VarChar, 50)
-                PatientName.Value = txtPName.Text.ToString()
-                cmd2.Parameters.Add(PatientName)
-
-                'Disease
-                Dim Disease As SqlParameter = New SqlParameter("@Disease", SqlDbType.VarChar, 50)
-                Disease.Value = txtDisease.Text.ToString()
-                cmd2.Parameters.Add(Disease)
-
-                'Address
-                Dim Address As SqlParameter = New SqlParameter("@Address", SqlDbType.VarChar, 300)
-                Address.Value = txtAddress.Text.ToString()
-                cmd2.Parameters.Add(Address)
-
-                'City
-                Dim City As SqlParameter = New SqlParameter("@City", SqlDbType.VarChar, 50)
-                City.Value = txtCity.Text.ToString()
-                cmd2.Parameters.Add(City)
-
-                'Mobile
-                Dim Mobile As SqlParameter = New SqlParameter("@Mobile", SqlDbType.VarChar, 20)
-                Mobile.Value = txtMobile.Text.ToString()
-                cmd2.Parameters.Add(Mobile)
-
-                'PatientCode
-                Dim PatientCode As SqlParameter = New SqlParameter("@PatientCode", SqlDbType.Int)
-                PatientCode.Value = Convert.ToInt32(txtPCode.Text.ToString())
-                cmd2.Parameters.Add(PatientCode)
-
-                Dim temp As Integer = 0
-                temp = cmd2.ExecuteNonQuery()
-
-                If temp > 0 Then
-                    OleCn.Close()
+                If msg2.Equals("success") Then
                     MessageBox.Show("Record Update Successfully", "Record Update", MessageBoxButton.OK, MessageBoxImage.Information)
-                    Call LoadData()
+                    Call BindPatientInfo()
                 Else
                     MsgBox("Record Updation Failed ", MsgBoxStyle.Critical, "Updation Failed")
-                    Return
                 End If
 
             Catch ex As Exception
-                MessageBox.Show(ex.Message.ToString(), "Updation Error...")
-                Exit Sub
+                MessageBox.Show(ex.Message.ToString(), "Updation Error")
             End Try
+
         End If
     End Sub
 
@@ -323,74 +231,47 @@ Public Class Window1
 
         If (msg = vbYes) Then
 
-            If RequiredEntry() = True Then
-                Return
-            End If
+            Dim patient As Patient = New Patient()
+            Dim objBL As BLPatientInfo = New BLPatientInfo()
+            Dim msg2 As String = String.Empty
 
             Try
-                With OleCn
-                    If .State <> ConnectionState.Open Then
-                        .ConnectionString = StrConnection()
-                        .Open()
-                    End If
-                End With
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
-            End Try
+                patient.PatientCode = txtPCode.Text.Trim()
+                msg2 = objBL.DeletePatientDetail(patient)
 
-            Try
-                Dim sSQL As String = "Delete From tblPatient where [PatientCode]=@PatientCode"
-                Dim cmd2 As SqlCommand = New SqlCommand(sSQL, OleCn)
-
-                'PatientCode
-                Dim PatientCode As SqlParameter = New SqlParameter("@PatientCode", SqlDbType.Int)
-                PatientCode.Value = Convert.ToInt32(txtPCode.Text.ToString())
-                cmd2.Parameters.Add(PatientCode)
-
-                Dim temp As Integer = 0
-                temp = cmd2.ExecuteNonQuery()
-
-                If temp > 0 Then
-                    OleCn.Close()
+                If msg2.Equals("success") Then
                     MessageBox.Show("Record Deleted Successfully", "Record Deleted", MessageBoxButton.OK, MessageBoxImage.Information)
                     Call Clear()
-                    Call LoadData()
+                    Call BindPatientInfo()
                 Else
                     MsgBox("Record Deletion Failed ", MsgBoxStyle.Critical, "Deletion Failed")
-                    Exit Sub
                 End If
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message.ToString(), "Deletion Error")
             End Try
         End If
-
     End Sub
 
     Private Sub BtnReferesh_Click(sender As Object, e As RoutedEventArgs)
-        Call LoadData()
+        Call BindPatientInfo()
     End Sub
 
     Private Sub txtSearch_TextChanged(sender As Object, e As TextChangedEventArgs)
+
+        Dim objBL As BLPatientInfo = New BLPatientInfo()
+        Dim dtData As DataTable = New DataTable()
+
         Try
-            With OleCn
-                If .State <> ConnectionState.Open Then
-                    .ConnectionString = StrConnection()
-                    .Open()
-                End If
-            End With
+            dtData = objBL.FilterPatientInfo(txtSearch.Text.Trim())
+
+            If dtData.Rows.Count > 0 Then
+                DataGrid1.ItemsSource = dtData.AsDataView
+            End If
+            lblRecords.Content = "Records: " & Me.DataGrid1.SelectedIndex + 1 & " of " & Me.DataGrid1.Items.Count.ToString()
         Catch ex As Exception
-            MessageBox.Show(ex.Message, "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error)
+            MessageBox.Show(ex.Message.ToString(), "Load Data Error")
         End Try
-
-        Dim cmd As New SqlCommand("select * from tblPatient Where Disease Like '%" & txtSearch.Text & "%' or PatientName Like '%" & txtSearch.Text & "%' or Mobile Like '%" & txtSearch.Text & "%'", OleCn)
-
-        Dim da As New SqlDataAdapter(cmd)
-        Dim ds As New DataSet()
-        da.Fill(ds, "tblPatient")
-
-        DataGrid1.ItemsSource = ds.Tables("tblPatient").AsDataView
-        lblRecords.Content = "Records: " & Me.DataGrid1.SelectedIndex + 1 & " of " & Me.DataGrid1.Items.Count.ToString()
     End Sub
 
     Private Sub BtnPrint_Click(sender As Object, e As RoutedEventArgs)

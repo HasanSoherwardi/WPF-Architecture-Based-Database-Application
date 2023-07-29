@@ -178,5 +178,15 @@
     <Resource Include="Resources\Save.png" />
     <Resource Include="Resources\Search.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WpfAppBL\WpfAppBL.vbproj">
+      <Project>{ac7cbdf1-e78d-4f33-8a13-52aef2ed4eae}</Project>
+      <Name>WpfAppBL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfAppModel\WpfAppModel.vbproj">
+      <Project>{86D6F14D-9A26-4CD5-8521-487250597291}</Project>
+      <Name>WpfAppModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
